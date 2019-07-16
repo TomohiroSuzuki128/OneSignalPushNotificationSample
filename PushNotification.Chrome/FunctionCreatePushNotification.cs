@@ -27,8 +27,8 @@ namespace PushNotification.Chrome
             request.Headers.Add("authorization", Variables.OneSignalAuthorizationKey);
 
             var byteArray = Encoding.UTF8.GetBytes("{"
-                                                    + "\"app_id\": \"" + Variables.OneSignalAppId + "\","
-                                                    + "\"contents\": {\"ja\": \"プッシュ通知のテストです。\"},"
+                                                    + $"\"app_id\": \"{Variables.OneSignalAppId}\","
+                                                    + "\"contents\": {\"en\": \"Test notification\", \"ja\": \"プッシュ通知のテストです。\"},"
                                                     + "\"included_segments\": [\"All\"]}");
 
             var responseContent = string.Empty;
