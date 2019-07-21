@@ -8,6 +8,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Host;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace PushNotification.Chrome
 {
@@ -18,13 +20,25 @@ namespace PushNotification.Chrome
         {
             log.Info("C# HTTP trigger function processed a request.");
 
-            var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+            var recievingRequestBody = new StreamReader(req.Body).ReadToEnd();
 
-            request.KeepAlive = true;
-            request.Method = "POST";
-            request.ContentType = "application/json; charset=utf-8";
+            log.Info($"recievingRequestBody = {recievingRequestBody}");
 
-            request.Headers.Add("authorization", Variables.OneSignalAuthorizationKey);
+            var objFromJson = JObject.Parse(recievingRequestBody);
+            var payload = objFromJson
+                    .SelectToken("payload").ToString();
+            var clickTypeName = JObject.Parse(payload)
+                    .SelectToken("clickTypeName").ToString();
+
+            log.Info($"clickTypeName = {clickTypeName}");
+
+            var sendingRequest = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
+
+            sendingRequest.KeepAlive = true;
+            sendingRequest.Method = "POST";
+            sendingRequest.ContentType = "application/json; charset=utf-8";
+
+            sendingRequest.Headers.Add("authorization", Variables.OneSignalAuthorizationKey);
 
             var byteArray = Encoding.UTF8.GetBytes("{"
                                                     + $"\"app_id\": \"{Variables.OneSignalAppId}\","
@@ -35,12 +49,12 @@ namespace PushNotification.Chrome
 
             try
             {
-                using (var writer = request.GetRequestStream())
+                using (var writer = sendingRequest.GetRequestStream())
                 {
                     writer.Write(byteArray, 0, byteArray.Length);
                 }
 
-                using (var response = request.GetResponse() as HttpWebResponse)
+                using (var response = sendingRequest.GetResponse() as HttpWebResponse)
                 {
                     using (var reader = new StreamReader(response.GetResponseStream()))
                     {
@@ -50,16 +64,17 @@ namespace PushNotification.Chrome
             }
             catch (WebException ex)
             {
-                //System.Diagnostics.Debug.WriteLine(ex.Message);
                 log.Info(ex.Message);
-                //System.Diagnostics.Debug.WriteLine(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
                 log.Info(new StreamReader(ex.Response.GetResponseStream()).ReadToEnd());
 
                 return new BadRequestObjectResult("Please pass a name on the query string or in the request body");
             }
 
-            System.Diagnostics.Debug.WriteLine(responseContent);
-            log.Info(responseContent);
+            //var requestBody = new StreamReader(req.Body).ReadToEnd();
+            //var jo = JObject.Parse(requestBody);
+            //responseContent = requestBody;
+
+            //log.Info(jo.ToString());
 
             //return (ActionResult)new OkObjectResult($"responseContent");
             return (ActionResult)new OkObjectResult(responseContent);

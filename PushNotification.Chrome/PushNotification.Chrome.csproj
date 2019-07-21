@@ -7,6 +7,27 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.13" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\es\System.Spatial.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\fr\System.Spatial.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\de\System.Spatial.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\fr\Microsoft.Data.Edm.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\fr\Microsoft.Data.OData.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\es\Microsoft.Data.Edm.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\PushNotification.Chrome.SourceManifest.xml" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\PushNotification.Chrome.Parameters.xml" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\de\Microsoft.Data.Edm.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\es\Microsoft.Data.Edm.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\es\Microsoft.Data.OData.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\bin\de\Microsoft.Data.OData.resources.dll" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+    <None Remove="obj\Release\netstandard2.0\PubTmp\Out\FunctionCreatePushNotification\function.json" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
